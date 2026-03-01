@@ -14,28 +14,18 @@ const heroSlides = [
     productSub: 'Hand Crafted Tropicals',
     features: [
       { src: '/assets/icon-double-efficiency.svg', w: 55, h: 55, label: 'Double Potency Formula' },
-      { src: '/assets/icon-dual-thermal.svg', w: 43, h: 59, label: 'Dual Thermal Effect' },
-      { src: '/assets/icon-natural-medicine.svg', w: 58, h: 51, label: 'Origin Natural and Medicinal' },
+      { src: '/assets/icon-dual-thermal.svg',       w: 43, h: 59, label: 'Dual Thermal Effect' },
+      { src: '/assets/icon-natural-medicine.svg',   w: 58, h: 51, label: 'Origin Natural and Medicinal' },
     ],
   },
   {
-    productImage: '/assets/tropical-balm-140ml.png',
-    productName: 'Tropical Balm',
-    productSub: 'Hand Crafted Tropicals',
+    productImage: '/assets/product-rose-gold-serum-hero.png',
+    productName: 'Rose Gold',
+    productSub: 'Salt Spring Island BC',
     features: [
-      { src: '/assets/icon-double-efficiency.svg', w: 55, h: 55, label: 'Double Potency Formula' },
-      { src: '/assets/icon-dual-thermal.svg', w: 43, h: 59, label: 'Dual Thermal Effect' },
-      { src: '/assets/icon-natural-medicine.svg', w: 58, h: 51, label: 'Origin Natural and Medicinal' },
-    ],
-  },
-  {
-    productImage: '/assets/tropical-balm-140ml.png',
-    productName: 'Tropical Balm',
-    productSub: 'Hand Crafted Tropicals',
-    features: [
-      { src: '/assets/icon-double-efficiency.svg', w: 55, h: 55, label: 'Double Potency Formula' },
-      { src: '/assets/icon-dual-thermal.svg', w: 43, h: 59, label: 'Dual Thermal Effect' },
-      { src: '/assets/icon-natural-medicine.svg', w: 58, h: 51, label: 'Origin Natural and Medicinal' },
+      { src: '/assets/icon-antioxidant.svg',       w: 44, h: 44, label: 'Antioxidant Power' },
+      { src: '/assets/icon-anti-inflammatory.svg', w: 44, h: 44, label: 'Anti-inflammatory Properties' },
+      { src: '/assets/icon-lipid-complex.svg',     w: 44, h: 44, label: 'Lipid Complex' },
     ],
   },
 ];
