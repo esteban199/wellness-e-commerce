@@ -41,44 +41,49 @@ export default function ProductCard({
     : null;
 
   return (
-    <Link href={`/product/${slug}`} className="group block">
-      <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-        {/* Image */}
-        <div className="relative aspect-square bg-gray-50 overflow-hidden">
-          <Image
-            src={image}
-            alt={name}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
-          />
-          {discount && (
-            <span className="absolute top-2 left-2 bg-[#2d6a4f] text-white text-xs font-medium px-2 py-0.5 rounded">
-              -{discount}%
+    <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col">
+      {/* Image */}
+      <Link href={`/product/${slug}`} className="relative aspect-square bg-gray-50 overflow-hidden block">
+        <Image
+          src={image}
+          alt={name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+        />
+        {discount && (
+          <span className="absolute top-2 left-2 bg-[#3a7667] text-white text-xs font-medium px-2 py-0.5 rounded">
+            -{discount}%
+          </span>
+        )}
+      </Link>
+
+      {/* Add to Cart button — inside image area at bottom */}
+      <div className="px-3 pt-3 pb-1">
+        <button className="w-full border border-[#3a7667] text-[#3a7667] text-xs font-semibold py-2.5 rounded hover:bg-[#3a7667] hover:text-white transition-colors">
+          Add to Cart
+        </button>
+      </div>
+
+      {/* Info */}
+      <Link href={`/product/${slug}`} className="px-3 pb-3 flex-1 flex flex-col justify-between">
+        <h3 className="text-sm font-medium text-gray-800 leading-tight mt-1 text-center group-hover:text-[#3a7667] transition-colors">
+          {name}
+        </h3>
+        <div className="mt-2 text-center">
+          <span className="text-sm font-bold text-gray-900">
+            ${price.toFixed(2)}
+          </span>
+          {compareAtPrice && (
+            <span className="ml-2 text-xs text-gray-400 line-through">
+              ${compareAtPrice.toFixed(2)}
             </span>
           )}
         </div>
-
-        {/* Info */}
-        <div className="p-3">
-          <h3 className="text-sm font-medium text-gray-800 leading-tight line-clamp-2 group-hover:text-[#2d6a4f] transition-colors">
-            {name}
-          </h3>
-          <div className="mt-1.5 flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-900">
-              ${price.toFixed(2)}
-            </span>
-            {compareAtPrice && (
-              <span className="text-xs text-gray-400 line-through">
-                ${compareAtPrice.toFixed(2)}
-              </span>
-            )}
-          </div>
-          <div className="mt-1.5">
-            <StarRating rating={rating} />
-          </div>
+        <div className="mt-1.5 flex justify-center">
+          <StarRating rating={rating} />
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

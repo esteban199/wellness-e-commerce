@@ -57,16 +57,18 @@ export default function Navbar() {
               </svg>
             </button>
             {shopOpen && (
-              <div className="absolute top-full left-0 mt-2 w-52 bg-white shadow-xl rounded-xl py-2 z-50 border border-gray-100">
-                {shopCategories.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3a7667] transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <div className="absolute top-full left-0 w-52 z-50 pt-2">
+                <div className="bg-white shadow-xl rounded-xl py-2 border border-gray-100">
+                  {shopCategories.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3a7667] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -87,16 +89,18 @@ export default function Navbar() {
               </svg>
             </button>
             {aboutOpen && (
-              <div className="absolute top-full left-0 mt-2 w-44 bg-white shadow-xl rounded-xl py-2 z-50 border border-gray-100">
-                {aboutLinks.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3a7667] transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <div className="absolute top-full left-0 w-44 z-50 pt-2">
+                <div className="bg-white shadow-xl rounded-xl py-2 border border-gray-100">
+                  {aboutLinks.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3a7667] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -178,13 +182,15 @@ export default function Navbar() {
               />
             </button>
             {langOpen && (
-              <div className="absolute top-full right-0 mt-2 w-32 bg-white shadow-xl rounded-xl py-2 z-50 border border-gray-100">
-                <button className="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 font-medium text-[#3a7667]">
-                  EN — English
-                </button>
-                <button className="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
-                  ES — Español
-                </button>
+              <div className="absolute top-full right-0 w-32 z-50 pt-2">
+                <div className="bg-white shadow-xl rounded-xl py-2 border border-gray-100">
+                  <button className="block w-full text-left px-4 py-2.5 text-sm font-medium text-[#3a7667] hover:bg-gray-50">
+                    EN — English
+                  </button>
+                  <button className="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
+                    ES — Español
+                  </button>
+                </div>
               </div>
             )}
           </div>
