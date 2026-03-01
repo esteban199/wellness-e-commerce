@@ -111,7 +111,7 @@ export default function HomePage() {
         <div className="relative w-full px-6 lg:px-16 pt-[136px] pb-24">
 
           {/* ── Mobile layout ── */}
-          <div className="lg:hidden text-white">
+          <div className="lg:hidden text-white text-center flex flex-col items-center">
 
             {/* Text block */}
             <h1 className="font-playfair text-[28px] sm:text-[36px] font-bold leading-tight mb-3 tracking-tight drop-shadow-lg whitespace-nowrap">
@@ -123,7 +123,7 @@ export default function HomePage() {
             <p className="text-sm text-[#FAF9F6]/80 mb-6 drop-shadow">
               Premium plant-based wellness crafted with intention.
             </p>
-            <div className="flex flex-col gap-3 mb-8 max-w-[300px]">
+            <div className="flex flex-col gap-3 mb-8 w-full max-w-[300px]">
               <Link
                 href="/shop"
                 className="inline-flex items-center justify-center bg-[#447361] hover:bg-[#3a6657] text-[#FAF9F6] font-bold px-6 py-4 transition-colors text-sm tracking-wide"
