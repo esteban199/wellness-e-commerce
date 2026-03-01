@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -99,7 +98,7 @@ function Stars({ rating, size = 'md' }: { rating: number; size?: 'sm' | 'md' }) 
 
 // ─── Page component ───────────────────────────────────────────────────────────
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
+export default function ProductPage() {
   const [mainImage, setMainImage] = useState(product.images[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[1]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0].name);

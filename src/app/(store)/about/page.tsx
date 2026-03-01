@@ -115,12 +115,14 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center gap-6 md:gap-10">
             {/* Left ornament */}
-            <img
+            <Image
               src="/assets/ornament-plant-left.svg"
               alt=""
+              width={100}
+              height={40}
               className="hidden sm:block flex-shrink-0 select-none"
-              style={{ height: '40px', width: '100px' }}
               aria-hidden="true"
+              unoptimized
             />
             <blockquote
               className="italic font-bold leading-relaxed text-center max-w-xl"
@@ -134,12 +136,14 @@ export default function AboutPage() {
               wellness.&rdquo;
             </blockquote>
             {/* Right ornament */}
-            <img
+            <Image
               src="/assets/ornament-plant-right.svg"
               alt=""
+              width={100}
+              height={40}
               className="hidden sm:block flex-shrink-0 select-none"
-              style={{ height: '40px', width: '100px' }}
               aria-hidden="true"
+              unoptimized
             />
           </div>
         </div>

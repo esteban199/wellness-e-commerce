@@ -103,7 +103,7 @@ export default function HomePage() {
         onTouchEnd={(e) => {
           const startX = Number((e.currentTarget as HTMLElement).dataset.touchX ?? 0);
           const diff = startX - e.changedTouches[0].clientX;
-          if (Math.abs(diff) > 50) diff > 0 ? nextHero() : prevHero();
+          if (Math.abs(diff) > 50) { if (diff > 0) nextHero(); else prevHero(); }
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent" />
