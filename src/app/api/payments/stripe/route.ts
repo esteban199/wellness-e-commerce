@@ -2,10 +2,14 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export async function POST(req: NextRequest) {
   try {
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeKey) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 });
+    }
+
+    const stripe = new Stripe(stripeKey);
     const { amount, currency = 'cad', metadata } = await req.json();
 
     const paymentIntent = await stripe.paymentIntents.create({
