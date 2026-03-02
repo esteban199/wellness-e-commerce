@@ -139,19 +139,8 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Carousel product display — image on top, feature card below */}
-            <div className="flex flex-col items-center gap-4">
-              {/* Product image */}
-              <Image
-                key={`img-m-${heroIndex}`}
-                src={slide.productImage}
-                alt={slide.productName}
-                width={220}
-                height={260}
-                priority
-                className="object-contain drop-shadow-2xl animate-fade-in"
-              />
-
+            {/* Carousel product display — feature card on top, image below */}
+            <div className="flex flex-col items-center gap-4 w-full">
               {/* Feature card */}
               <div
                 className="w-full rounded-[18px] p-5"
@@ -168,6 +157,17 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
+
+              {/* Product image */}
+              <Image
+                key={`img-m-${heroIndex}`}
+                src={slide.productImage}
+                alt={slide.productName}
+                width={220}
+                height={260}
+                priority
+                className="object-contain drop-shadow-2xl animate-fade-in"
+              />
             </div>
           </div>
 
@@ -202,8 +202,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Center: Product image */}
-            <div className="relative self-end">
+            {/* Center: Product image — anchored to bottom with 200px offset */}
+            <div className="relative self-end translate-y-[100px]">
               <Image
                 key={`img-${heroIndex}`}
                 src={slide.productImage}
@@ -215,9 +215,9 @@ export default function HomePage() {
               />
             </div>
 
-            {/* Right: Feature panel */}
+            {/* Right: Feature panel — sized to content */}
             <div
-              className="flex flex-col gap-6 self-stretch rounded-[23px] p-7 w-[271px]"
+              className="flex flex-col gap-5 self-center rounded-[23px] p-6 w-[271px]"
               style={{ background: 'rgba(250,249,246,0.45)', border: '2px solid rgba(250,249,246,0.6)' }}
             >
               <div>
