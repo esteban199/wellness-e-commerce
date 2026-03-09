@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from './Logo';
 import { useCartStore } from '@/store/cartStore';
 
@@ -26,7 +26,11 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const itemCount = useCartStore((s) => s.itemCount());
+  const displayCount = mounted ? itemCount : 0;
 
   return (
     <header className="relative z-10 bg-white/80 backdrop-blur-md border-b border-white/30 shadow-sm">
@@ -140,10 +144,11 @@ export default function Navbar() {
                 alt="Cart"
                 width={35}
                 height={46}
+                style={{ width: 35, height: 46 }}
               />
               {/* Badge — sits on the dark circle of the SVG */}
               <span className="absolute top-[18.4px] right-[9.6px] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
-                {itemCount}
+                {displayCount}
               </span>
             </div>
             Cart
@@ -230,7 +235,7 @@ export default function Navbar() {
           <Link href="/cbd-calculator" className="block py-2 text-gray-700 hover:text-[#3a7667]" onClick={() => setMobileOpen(false)}>Calculate Dose</Link>
           <Link href="/account" className="block py-2 text-gray-700 hover:text-[#3a7667]" onClick={() => setMobileOpen(false)}>My Account</Link>
           <Link href="/cart" className="block py-2 text-gray-700 hover:text-[#3a7667]" onClick={() => setMobileOpen(false)}>
-            Cart ({itemCount})
+            Cart ({displayCount})
           </Link>
         </div>
       )}

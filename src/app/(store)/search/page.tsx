@@ -37,14 +37,10 @@ const SORT_OPTIONS = ['Relevance', 'Price: Low to High', 'Price: High to Low', '
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function StarRating({ rating }: { rating: number }) {
-  const full = Math.floor(rating);
-  const hasHalf = rating % 1 >= 0.5;
-  const empty = 5 - full - (hasHalf ? 1 : 0);
   return (
-    <span className="text-xs text-amber-400">
-      {'★'.repeat(full)}
-      {hasHalf ? '½' : ''}
-      <span className="text-gray-300">{'★'.repeat(empty)}</span>
+    <span className="flex items-center gap-1 text-xs font-bold" style={{ color: '#FFB298' }}>
+      <span className="text-sm">★</span>
+      <span style={{ color: '#131414' }}>{rating.toFixed(1)}</span>
     </span>
   );
 }
@@ -62,12 +58,12 @@ function ProductCard({ product }: { product: Product }) {
         />
       </div>
       <div className="pt-3">
-        <p className="text-xs text-[#646464] mb-0.5">{product.category}</p>
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-sm font-bold text-[#131414] leading-snug">{product.name}</p>
+        <div className="flex items-center justify-between gap-2 mb-1">
+          <p className="text-xs text-[#646464]">{product.category}</p>
           <StarRating rating={product.rating} />
         </div>
-        <p className="text-sm font-bold text-[#447361] mt-1">${product.price.toFixed(2)}</p>
+        <p className="text-sm font-bold text-[#131414] leading-snug mb-1">{product.name}</p>
+        <p className="text-sm font-bold text-[#447361]">${product.price.toFixed(2)}</p>
       </div>
     </Link>
   );
