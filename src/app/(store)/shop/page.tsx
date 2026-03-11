@@ -1,43 +1,60 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { products as allProducts, getBasePrice, getBaseImage, ALL_CATEGORIES, type Category } from '@/data/products';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Adapter: flatten real products into shop-list format ────────────────────
 
-interface Product {
+interface ShopProduct {
   name: string;
   slug: string;
   price: number;
   image: string;
-  category: string;
+  category: string;      // display label (first category)
+  categories: string[];  // all categories for filtering
   rating: number;
 }
 
-// ─── Data ────────────────────────────────────────────────────────────────────
-
-const products: Product[] = [
-  { name: 'Mary Jay Skin Duo',                     slug: 'mary-jay-skin-duo',                     price: 140, image: '/assets/product-mary-jay-skin-duo.png',         category: 'Set',        rating: 4.5 },
-  { name: '60ml Full Spectrum Tincture',           slug: '60ml-full-spectrum-tincture',           price: 90,  image: '/assets/product-60ml-full-spectrum.png',           category: 'Tinctures',  rating: 4.9 },
-  { name: '50ml Rose Gold Tincture',               slug: '50ml-rose-gold-tincture',               price: 95,  image: '/assets/product-50ml-rose-gold-tincture.png',       category: 'Tinctures',  rating: 4.8 },
-  { name: '140ml Double Strenght Tropical Balm',   slug: '140ml-double-strenght-tropical-balm',   price: 140, image: '/assets/product-140ml-double-strenght.png',         category: 'Skin Care',  rating: 4.7 },
-  { name: '60ml Hand Crafted Tropical Balm',       slug: '60ml-hand-crafted-tropical-balm',       price: 90,  image: '/assets/product-60ml-hand-crafted.png',             category: 'Skin Care',  rating: 4.3 },
-  { name: '4 Vials CBD Natural Suppositories',     slug: '4-vials-cbd-natural-suppositories',     price: 45,  image: '/assets/product-4-vials-cbd-suppositories.png',     category: 'Medicinals', rating: 4.5 },
-  { name: 'Roll-on Tropical Balm Double Strenght', slug: 'roll-on-tropical-balm-double-strenght', price: 75,  image: '/assets/product-roll-on-tropical-balm.png',         category: 'Skin Care',  rating: 5.0 },
-  { name: '30ml Rose Gold Serum',                  slug: '30ml-rose-gold-serum',                  price: 85,  image: '/assets/product-30ml-rose-gold-serum.png',          category: 'Skin Care',  rating: 4.8 },
-  { name: '30ml Rose Gold Tincture',               slug: '30ml-rose-gold-tincture',               price: 50,  image: '/assets/product-50ml-rose-gold-tincture.png',       category: 'Tinctures',  rating: 4.7 },
-  { name: '60ml Isolate Tincture',                 slug: '60ml-isolate-tincture',                 price: 95,  image: '/assets/product-60ml-full-spectrum.png',            category: 'Tinctures',  rating: 4.2 },
-  { name: '150mg CBD Balm Bombs',                  slug: '150mg-cbd-balm-bombs',                  price: 12,  image: '/assets/product-60ml-hand-crafted.png',             category: 'Bath',       rating: 4.3 },
-  { name: '600g Sea BD Bath Salt',                 slug: '600g-sea-bd-bath-salt',                 price: 32,  image: '/assets/product-4-vials-cbd-suppositories.png',     category: 'Apothecary', rating: 4.5 },
-];
+const products: ShopProduct[] = allProducts.map((p) => ({
+  name: p.name,
+  slug: p.slug,
+  price: getBasePrice(p),
+  image: getBaseImage(p),
+  category: p.categories[0],
+  categories: p.categories,
+  rating: p.rating,
+}));
 
 const PRODUCTS_PER_PAGE = 9;
 
-const PRODUCT_CATEGORIES = ['All Products', 'Tropicals', 'Skin Care', 'Tinctures', 'Vape', 'Pet', 'Bath', 'Set', 'Apothecary'];
+const PRODUCT_CATEGORIES = ['All Products', ...ALL_CATEGORIES];
 const CONDITIONS = ['Joint Pain', 'Skin Irritation', 'Headache', 'Muscle Pain', 'ADHD', 'Artritis'];
 const PROMOTIONS = ['New Arrivals', 'Best Sellers', 'On Sale'];
 const AVAILABILITY = ['In Stock', 'Best Sellers'];
+
+// Maps URL ?category= slug → one or more product Category values
+const SLUG_TO_CATEGORIES: Record<string, Category[]> = {
+  'tropicals':      ['Topicals'],
+  'topicals':       ['Topicals'],
+  'skin-care':      ['Skincare', 'Topicals'],
+  'skincare':       ['Skincare'],
+  'tinctures':      ['Tinctures'],
+  'oils-tinctures': ['Tinctures'],
+  'vape':           ['Vape'],
+  'pets':           ['Pets'],
+  'bath':           ['Bath'],
+  'set':            ['Sets'],
+  'sets':           ['Sets'],
+  'apothecary':     ['Consumables', 'Capsules'],
+  'consumables':    ['Consumables'],
+  'capsules':       ['Capsules'],
+  'therapeutic':    ['Topicals', 'PMS'],
+  'pms':            ['PMS'],
+  'facial-care':    ['Skincare'],
+};
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -101,7 +118,7 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
   );
 }
 
-function ProductCardItem({ product }: { product: Product }) {
+function ProductCardItem({ product }: { product: ShopProduct }) {
   const [addedToCart, setAddedToCart] = useState(false);
 
   const handleAddToCart = () => {
@@ -156,7 +173,9 @@ function ProductCardItem({ product }: { product: Product }) {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-export default function ShopPage() {
+function ShopPageInner() {
+  const searchParams = useSearchParams();
+
   // Filter state
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
@@ -167,6 +186,20 @@ export default function ShopPage() {
   const [searchInput, setSearchInput] = useState('');
   const [sortBy, setSortBy] = useState('Default Sorting');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Sync category filter from URL ?category= param
+  useEffect(() => {
+    const slug = searchParams.get('category');
+    if (slug) {
+      const mapped = SLUG_TO_CATEGORIES[slug.toLowerCase()];
+      if (mapped) {
+        setSelectedCategories(mapped);
+        setCurrentPage(1);
+        return;
+      }
+    }
+    setSelectedCategories([]);
+  }, [searchParams]);
 
   // Toggle helpers
   const toggle = <T,>(arr: T[], item: T, set: (v: T[]) => void) => {
@@ -216,7 +249,9 @@ export default function ShopPage() {
     }
 
     if (selectedCategories.length > 0 && !selectedCategories.includes('All Products')) {
-      list = list.filter((p) => selectedCategories.includes(p.category));
+      list = list.filter((p) =>
+        p.categories.some((cat) => selectedCategories.includes(cat))
+      );
     }
 
     if (selectedRatings.length > 0) {
@@ -479,5 +514,13 @@ export default function ShopPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense>
+      <ShopPageInner />
+    </Suspense>
   );
 }

@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 
+import { products as allProducts, getBasePrice, getBaseImage } from '@/data/products';
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 interface Product {
@@ -16,20 +18,14 @@ interface Product {
   rating: number;
 }
 
-const products: Product[] = [
-  { name: 'Mary Jay Skin Duo',                     slug: 'mary-jay-skin-duo',                     price: 140, image: '/assets/product-mary-jay-skin-duo.png',         category: 'Set',        rating: 4.5 },
-  { name: '60ml Full Spectrum Tincture',           slug: '60ml-full-spectrum-tincture',           price: 90,  image: '/assets/product-60ml-full-spectrum.png',           category: 'Tinctures',  rating: 4.9 },
-  { name: '50ml Rose Gold Tincture',               slug: '50ml-rose-gold-tincture',               price: 95,  image: '/assets/product-50ml-rose-gold-tincture.png',       category: 'Tinctures',  rating: 4.8 },
-  { name: '140ml Double Strenght Tropical Balm',   slug: '140ml-double-strenght-tropical-balm',   price: 140, image: '/assets/product-140ml-double-strenght.png',         category: 'Skin Care',  rating: 4.7 },
-  { name: '60ml Hand Crafted Tropical Balm',       slug: '60ml-hand-crafted-tropical-balm',       price: 90,  image: '/assets/product-60ml-hand-crafted.png',             category: 'Skin Care',  rating: 4.3 },
-  { name: '4 Vials CBD Natural Suppositories',     slug: '4-vials-cbd-natural-suppositories',     price: 45,  image: '/assets/product-4-vials-cbd-suppositories.png',     category: 'Medicinals', rating: 4.5 },
-  { name: 'Roll-on Tropical Balm Double Strenght', slug: 'roll-on-tropical-balm-double-strenght', price: 75,  image: '/assets/product-roll-on-tropical-balm.png',         category: 'Skin Care',  rating: 5.0 },
-  { name: '30ml Rose Gold Serum',                  slug: '30ml-rose-gold-serum',                  price: 85,  image: '/assets/product-30ml-rose-gold-serum.png',          category: 'Skin Care',  rating: 4.8 },
-  { name: '30ml Rose Gold Tincture',               slug: '30ml-rose-gold-tincture',               price: 50,  image: '/assets/product-50ml-rose-gold-tincture.png',       category: 'Tinctures',  rating: 4.7 },
-  { name: '60ml Isolate Tincture',                 slug: '60ml-isolate-tincture',                 price: 95,  image: '/assets/product-60ml-full-spectrum.png',            category: 'Tinctures',  rating: 4.2 },
-  { name: '150mg CBD Balm Bombs',                  slug: '150mg-cbd-balm-bombs',                  price: 12,  image: '/assets/product-60ml-hand-crafted.png',             category: 'Bath',       rating: 4.3 },
-  { name: '600g Sea BD Bath Salt',                 slug: '600g-sea-bd-bath-salt',                 price: 32,  image: '/assets/product-4-vials-cbd-suppositories.png',     category: 'Apothecary', rating: 4.5 },
-];
+const products: Product[] = allProducts.map((p) => ({
+  name: p.name,
+  slug: p.slug,
+  price: getBasePrice(p),
+  image: getBaseImage(p),
+  category: p.categories[0],
+  rating: p.rating,
+}));
 
 const PRODUCTS_PER_PAGE = 9;
 const SORT_OPTIONS = ['Relevance', 'Price: Low to High', 'Price: High to Low', 'Top Rated'];
