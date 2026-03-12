@@ -101,15 +101,27 @@ export default function ProductPage() {
   }
 
   function handleAddToCart() {
-    addItem({
-      id: selectedVariant.id,
-      slug: product!.slug,
-      name: `${product!.name}${selectedFlavour ? ` — ${selectedFlavour}` : ''}`,
-      variant: selectedVariant.label,
-      price: selectedVariant.price + (selectedAddon ? (product!.addons?.find((a) => a.id === selectedAddon)?.price ?? 0) : 0),
-      image: selectedVariant.image,
-      quantity,
-    });
+    const addonPrice = selectedAddon
+      ? (product!.addons?.find((a) => a.id === selectedAddon)?.price ?? 0)
+      : 0;
+
+    addItem(
+      {
+        _id: selectedVariant.id,
+        slug: product!.slug,
+        name: `${product!.name}${selectedFlavour ? ` — ${selectedFlavour}` : ''} (${selectedVariant.label})`,
+        description: '',
+        price: selectedVariant.price + addonPrice,
+        images: [selectedVariant.image],
+        category: product!.categories[0],
+        tags: [],
+        stock: 99,
+        isActive: true,
+        isFeatured: false,
+        createdAt: '',
+      },
+      quantity
+    );
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);
   }
